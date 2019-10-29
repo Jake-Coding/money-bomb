@@ -5,7 +5,7 @@ end
 class Player
     attr_reader :score, :dead
     def initialize
-        @image = Gosu::Image.new('media/player.bmp') #need file extension
+        @image = Gosu::Image.new('media/lenin.jpg') #need file extension
         @x = @vel_x = 0.0
         @y = 400
         @score = 0
@@ -29,7 +29,7 @@ class Player
         @vel_x *= 0.95
     end
     def draw
-        @image.draw(@x, @y, ZOrder::PLAYER)
+        @image.draw(@x, @y, ZOrder::PLAYER, factor_x = 0.05, factor_y = 0.05)
     end
     def collect_money(moneys)
         moneys.reject! do |money|
@@ -65,7 +65,7 @@ class Money
         @image = Gosu::Image.new('media/money.png') # need money pic
     end
     def draw
-        @image.draw(@x, @y, ZOrder::MONEY, factor_x = 0.25*@bigness, factor_y = 0.25* @bigness)
+        @image.draw(@x, @y, ZOrder::MONEY, factor_x = 0.1*@bigness, factor_y = 0.1* @bigness)
     end
     def move
         @y += @bigness
@@ -77,22 +77,22 @@ class Bomb
     def initialize
         @x = rand * 640
         @y = 0.0
-        @image = Gosu::Image.new('media/bomb.png') # need bomb pic
+        @image = Gosu::Image.new('media/stalin.jpg') # need bomb pic
     end
     def draw
-        @image.draw(@x, @y, ZOrder::MONEY, factor_x = 0.25, factor_y = 0.25)
+        @image.draw(@x, @y, ZOrder::MONEY, factor_x = 0.07, factor_y = 0.07)
     end
     def move
-        @y += 20   
+        @y += 5   
     end
 end
 
 class Tutorial < (Gosu::Window)
     def initialize
       super 640, 480
-      self.caption = "Tutorial Game"
+      self.caption = "Money Bomb"
       
-      @background_image = Gosu::Image.new("media/background.jpg", tileable: true) # need background pic
+      @background_image = Gosu::Image.new("media/back.jpg", tileable: true) # need background pic
       
       @player = Player.new
       @player.warp(360)
@@ -126,12 +126,15 @@ class Tutorial < (Gosu::Window)
     end
     
     def draw
-      @background_image.draw(0, 0, ZOrder::BACKGROUND)
-      @player.draw if !@player.dead
-      @moneys.each { |money| money.draw }
-      @bombs.each {|bomb| bomb.draw}
-      @font.draw_text("Score: #{@player.score}", 10, 10, ZOrder::UI, 1.0, 1.0, Gosu::Color::YELLOW)
-      @big_font.draw_text("YOU LOST", 640 / 6, 480 / 2.5, ZOrder::UI, 1.0, 1.0, Gosu::Color::RED) if @player.dead
+      @background_image.draw(0, 0, ZOrder::BACKGROUND, factor_x = 0.47, factor_y = 0.25)
+      if !@player.dead
+        @player.draw
+        @moneys.each { |money| money.draw }
+        @bombs.each {|bomb| bomb.draw}
+      else
+        @big_font.draw_text("YOU LOST\nKarl is\nDisappointed", 640 / 6, 480 / 2.5, ZOrder::UI, 1.0, 1.0, Gosu::Color::GREEN) if @player.dead
+      end
+      @font.draw_text("Score: #{@player.score}", 10, 10, ZOrder::UI, 1.0, 1.0, Gosu::Color::BLUE)
     end
     
     def button_down(id)
