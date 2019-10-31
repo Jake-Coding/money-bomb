@@ -113,16 +113,18 @@ class Tutorial < (Gosu::Window)
         @player.accelerate
         @player.move_right
       end
-      @player.hit_bombs(@bombs)
-      @player.collect_money(@moneys)
-      if rand(100) == 1 and @bombs.size < 3
-        @bombs.push(Bomb.new)
-      end
-      if rand(100) < 4 and @moneys.size < 25
-        @moneys.push(Money.new(rand))
-      end
-      @bombs.each {|bomb| bomb.move}
-      @moneys.each {|money| money.move}
+      if !@player.dead
+        @player.hit_bombs(@bombs)
+        @player.collect_money(@moneys)
+        if rand(100) == 1 and @bombs.size < 3
+            @bombs.push(Bomb.new)
+        end
+        if rand(100) < 4 and @moneys.size < 25
+            @moneys.push(Money.new(rand))
+        end
+        @bombs.each {|bomb| bomb.move}
+        @moneys.each {|money| money.move}
+    end
     end
     
     def draw
