@@ -5,7 +5,7 @@ end
 class Player
     attr_reader :score, :dead
     def initialize
-        @image = Gosu::Image.new('media/lenin.jpg') #need file extension
+        @image = Gosu::Image.new('media/lenin.jpg')
         @x = @vel_x = 0.0
         @y = 400
         @score = 0
@@ -62,7 +62,7 @@ class Money
         @x = rand * 640
         @y = 480.0
         @bigness = size
-        @image = Gosu::Image.new('media/money.png') # need money pic
+        @image = Gosu::Image.new('media/money.png')
     end
     def draw
         @image.draw(@x, @y, ZOrder::MONEY, factor_x = 0.1*@bigness, factor_y = 0.1* @bigness)
@@ -77,7 +77,7 @@ class Bomb
     def initialize
         @x = rand * 640
         @y = 0.0
-        @image = Gosu::Image.new('media/stalin.jpg') # need bomb pic
+        @image = Gosu::Image.new('media/stalin.jpg')
     end
     def draw
         @image.draw(@x, @y, ZOrder::MONEY, factor_x = 0.07, factor_y = 0.07)
@@ -87,12 +87,12 @@ class Bomb
     end
 end
 
-class Tutorial < (Gosu::Window)
+class MoneyBomb < (Gosu::Window)
     def initialize
       super 640, 480
       self.caption = "Money Bomb"
       
-      @background_image = Gosu::Image.new("media/back.jpg", tileable: true) # need background pic
+      @background_image = Gosu::Image.new("media/back.jpg", tileable: true)
       
       @player = Player.new
       @player.warp(360)
@@ -134,7 +134,7 @@ class Tutorial < (Gosu::Window)
         @moneys.each { |money| money.draw }
         @bombs.each {|bomb| bomb.draw}
       else
-        @big_font.draw_text("YOU LOST\nKarl is\nDisappointed", 640 / 6, 480 / 2.5, ZOrder::UI, 1.0, 1.0, Gosu::Color::GREEN) if @player.dead
+        @big_font.draw_text("YOU LOST\nKarl is\nDisappointed", 640 / 6, 480 / 2.5, ZOrder::UI, 1.0, 1.0, Gosu::Color::GREEN)
       end
       @font.draw_text("Score: #{@player.score}", 10, 10, ZOrder::UI, 1.0, 1.0, Gosu::Color::BLUE)
     end
@@ -148,4 +148,4 @@ class Tutorial < (Gosu::Window)
     end
   end
   
-  Tutorial.new.show
+  MoneyBomb.new.show
