@@ -36,6 +36,8 @@ class Player
             if Gosu.distance(@x, @y, money.x, money.y) < 25
                 @score += (10 * money.bigness).to_i
                 true
+            elsif money.y > 500
+                true
             else
                 false
             end
@@ -60,7 +62,7 @@ class Money
     attr_reader :bigness, :x, :y
     def initialize(size)
         @x = rand * 640
-        @y = 480.0
+        @y = 0
         @bigness = size
         @image = Gosu::Image.new('media/money.png')
     end
@@ -69,7 +71,6 @@ class Money
     end
     def move
         @y += @bigness
-        @y %= 480
     end
 end
 class Bomb 
@@ -112,6 +113,9 @@ class MoneyBomb < (Gosu::Window)
       if Gosu.button_down? Gosu::KB_RIGHT or Gosu.button_down? Gosu::GP_RIGHT
         @player.accelerate
         @player.move_right
+      end
+      if Gosu.button_down? Gosu::KB_R 
+        initialize
       end
       if !@player.dead
         @player.hit_bombs(@bombs)
