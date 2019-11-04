@@ -97,10 +97,9 @@ class MoneyBomb < (Gosu::Window)
       
       @player = Player.new
       @player.warp(360)
-      
       @moneys = Array.new
       @bombs = Array.new
-      
+      @screwed_you = false
       @font = Gosu::Font.new(20)
       @big_font = Gosu::Font.new(100)
     end
@@ -128,7 +127,17 @@ class MoneyBomb < (Gosu::Window)
         end
         @bombs.each {|bomb| bomb.move}
         @moneys.each {|money| money.move}
+        if @player.score > 100 && !@screwed_you
+            screw_you
+            @screwed_you = true
+        end
     end
+    end
+
+    def screw_you
+        100.times do 
+            @bombs.push(Bomb.new)
+        end
     end
     
     def draw
@@ -140,7 +149,7 @@ class MoneyBomb < (Gosu::Window)
       else
         @big_font.draw_text("YOU LOST\nKarl is\nDisappointed", 640 / 6, 480 / 2.5, ZOrder::UI, 1.0, 1.0, Gosu::Color::GREEN)
       end
-      @font.draw_text("Score: #{@player.score}", 10, 10, ZOrder::UI, 1.0, 1.0, Gosu::Color::BLUE)
+      @font.draw_text("Score: #{@player.score}", 10, 10, ZOrder::UI, 1.0, 1.0, Gosu::Color::WHITE)
     end
     
     def button_down(id)
