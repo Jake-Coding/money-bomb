@@ -147,6 +147,7 @@ class MoneyBomb < (Gosu::Window)
         @moneys.each { |money| money.draw }
         @bombs.each {|bomb| bomb.draw}
       else
+        @font.draw_text('Press \'R\' to restart', 100, 100, ZOrder::UI, 1.0, 1.0, Gosu::Color::GREEN)
         @big_font.draw_text("YOU LOST\nKarl is\nDisappointed", 640 / 6, 480 / 2.5, ZOrder::UI, 1.0, 1.0, Gosu::Color::GREEN)
       end
       @font.draw_text("Score: #{@player.score}", 10, 10, ZOrder::UI, 1.0, 1.0, Gosu::Color::WHITE)
